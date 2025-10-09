@@ -1,0 +1,180 @@
+* {
+    padding: 0;
+    margin: 0;
+    /* outline: 1px solid rgb(219, 173, 230); */
+}
+
+
+body {
+    font-family: "Assistant", sans-serif;
+}
+
+:root {
+    /* font colors */
+    --font-color-title: #424553;
+    --font-color-card-title: #282c3f;
+    --font-color-discount-off: #ff905a;
+    /* line height */
+    --default-line-height: 18.5714px;
+
+}
+
+@font-face {
+    font-family: "Assistant";
+    src: url("fonts/Assistant-Regular.woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Assistant";
+    src: url("fonts/Assistant-Bold.woff2");
+    font-weight: 700;
+    font-style: normal;
+}
+
+header {
+
+    display: flex;
+    flex-direction: row;
+
+}
+
+.header-header {
+
+    display: inline-block;
+    font-family: Assistant;
+    margin-right: auto;
+    color: var(--font-color-title);
+
+}
+
+.header-back-icon {
+    margin: 16px;
+}
+
+.header-myntra-icon {
+    margin: 16px 16px 16px 0;
+    height: 24px;
+    width: 24px;
+
+}
+
+.header-title {
+    font-size: 16px;
+    line-height: 17.6px;
+    font-weight: 700;
+    margin-top: 11px;
+
+}
+
+.header-subtitle {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--font-color-title);
+
+}
+
+.header-actions {
+    display: flex;
+    outline: 1px solid grey;
+}
+
+.header-action-icon {
+    margin: 17px 16px 16px 0;
+}
+
+/* banner */
+.banner {
+    background-image: linear-gradient(90deg, #bd6da6, #d799cb);
+    color: white;
+    text-align: center;
+    padding: 12px 6px;
+    font-size: 12px;
+    line-height: 17.1429px;
+}
+
+.banner-bold {
+    font-weight: 700;
+}
+
+
+
+/* item card */
+.grid-item-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.content-wrap {
+    position: relative;
+}
+
+/* wishlist icon */
+.cw-like {
+    position: absolute;
+    right: 0;
+    top: 2px;
+}
+
+.details-title {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 20.41px;
+    color: var(--font-color-card-title);
+
+}
+
+.details-subtitle {
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 12.1px;
+    height: 12px;
+    opacity: 0.6;
+    color: var(--font-color-card-title);
+}
+
+.suit-img {
+    height: 255px;
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.price-cnt {
+    display: flex;
+    gap: 5px;
+    padding-left: 6px;
+
+}
+
+.new-price-cnt {
+    display: inline-flex;
+    flex-direction: row;
+    align-content: end;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--font-color-card-title);
+}
+
+
+.old-price-cnt {
+    display: inline-flex;
+    flex-direction: row;
+    align-content: end;
+    font-size: 13px;
+    opacity: 0.4;
+    color: var(--font-color-card-title);
+}
+
+.old-price {
+    text-decoration-line: line-through;
+}
+
+.disc-off {
+    color: var(--font-color-discount-off);
+    font-weight: 700;
+    font-size: 11px;
+    white-space: nowrap;
+
+}
