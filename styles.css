@@ -4,24 +4,41 @@
     /* outline: 1px solid rgb(219, 173, 230); */
 }
 
+::after::before {
+    box-sizing: border-box;
+
+}
+
+
 
 body {
     font-family: "Assistant", sans-serif;
+    color: var(--font-color-title);
+    font-size: 13px;
+    line-height: 1.42857143;
+    -webkit-font-smoothing: antialiased;
+
 }
 
-:root {
+:root { 
     /* font colors */
     --font-color-title: #424553;
     --font-color-card-title: #282c3f;
     --font-color-best-price: rgb(3, 166, 133);
     --font-color-best-price-grey: #686b77;
     --font-color-discount-off: #ff905a;
-
+    --filter-count-color: #94969f;
+    /* caret color */
+    --caret-color: #ff2459;
     /* text-colors */
     --floating-btn-color: #535766;
     --sort-by-title-color: #3e4152;
     /* border color */
     --button-border-color: #eaeaec;
+    --filter-search-border-color: #d4d5d9;
+    /* background colors */
+    --filters-background-colour: #f5f5f6;
+    --filter-search-background-color: #f4f4f5;
     /* line height */
     --default-line-height: 18.5714px;
 
@@ -265,7 +282,7 @@ header {
     min-height: 17px;
 }
 
-/* floating buttons continer */
+/* floating buttons continer SORT AND FLOAT */
 .floating-sort-filter {
     display: flex;
     width: 100%;
@@ -280,6 +297,11 @@ header {
     display: flex;
     justify-content: space-around;
     width: 100%;
+}
+
+.ripple-container {
+    position: relative;
+    overflow: hidden;
 }
 
 /* floating buttons */
@@ -314,12 +336,14 @@ header {
     border-left: 1px solid var(--button-border-color);
 }
 
-/* BOTTOM DRAWER SORT BUTTON */
+/* SORT BUTTON =========== Bottom drawer */
 .drawer-bottom {
+    display: none;
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
+    z-index: 12;
     height: max-content;
     background-color: white;
 }
@@ -367,3 +391,192 @@ header {
 .list li {
     margin-block: 15px;
 }
+
+/* ====================================== */
+
+/* FILTER BUTTON =========== Filter page */
+.filter-page {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 12;
+    background-color: #fff;
+}
+
+.filter-heading {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid var(--button-border-color);
+}
+
+/* filter title and clear all button */
+.filter-heading-child {
+    flex: 1;
+    padding: 14px 12px 10px 20px;
+    font-weight: 700;
+    text-align: left;
+}
+
+/* clear all button */
+.filter-heading-child:nth-child(2) {
+    text-align: right;
+    color: #ff3e6c;
+    padding-right: 20px;
+    font-size: 14px;
+}
+
+.flex-filter-content {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+/* filter categories */
+.filters {
+    height: 100%;
+    flex: 0 0 33.33%;
+    overflow: scroll;
+    background-color: var(--filters-background-colour);
+}
+
+/* filters title */
+.filter-by {
+    min-height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    -webkit-box-align: center;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--sort-by-title-color);
+    padding: 0px 15px;
+    border-bottom: 1px solid var(--button-border-color);
+}
+
+/* options for the selcted categores */
+.filter-options {
+    flex: 0 0 66.66%;
+    overflow-y: scroll;
+    min-height: 0;
+}
+
+
+/*============= FILTER OPTIONS OR SUBOPTIONS OF FILTERS */
+/* common styles for fileter options */
+.col-2 {
+    padding-right: 12px;
+}
+
+/* other styles for filter options */
+.categories-contents {
+    display: flex;
+    flex-direction: column;
+
+}
+
+/* category contents list */
+.category-list {
+    padding: 15px 2px 15px 0;
+    border-bottom: 1px solid var(--button-border-color);
+    line-height: 18.5714px;
+    color: var(--sort-by-title-color);
+
+    font-size: 13px;
+}
+
+.category-list-item {
+    display: flex;
+    cursor: pointer;
+    width: 100%;
+    flex-direction: row;
+    font-size: 14px;
+    position: relative;
+}
+
+.filter-checkbox {
+    margin: 0 15px 0 0;
+    line-height: normal;
+    caret-color: var(--caret-color);
+}
+
+.filter-checkbox.checked~.checkbox-indicator::after {
+    border-color: #ff3e6c;
+    border-style: none none solid solid;
+    border-width: 2px;
+    display: block;
+}
+
+/* checkbox indicator */
+.checkbox-indicator {
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    position: absolute;
+    left: 0;
+    top: 2px;
+}
+
+.checkbox-indicator::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 5px;
+    transform: rotate(-45deg);
+}
+
+.filter-value {
+    width: 80%;
+    line-height: 20px;
+
+}
+
+.category-list.selected-option {
+    font-weight: 700;
+}
+
+.filter-count {
+    color: var(--filter-count-color);
+    font-size: 10px;
+    line-height: 14.2857px;
+}
+
+/* Styles for search options */
+.client-search {
+    padding-left: 8px;
+    background-color: var(--filter-search-background-color);
+    border: 1px solid var(--filter-search-border-color);
+    margin-left: 16px;
+    margin-top: 10px;
+    color: var(--sort-by-title-color);
+    border-radius: 2px;
+    /* line-height: 18px; */
+}
+
+/* input search box  */
+.search-input {
+    padding: 10px 0 10px 26px;
+    color: var(--sort-by-title-color);
+    border-width: 0;
+    background-color: #f4f4f5;
+    font-size: 12px;
+    /* width: 90%; */
+    caret-color: var(--caret-color);
+    outline: 0;
+    line-height: 17.01429px;
+}
+
+/* search icon */
+.search-icon {
+    position: absolute;
+    top: 23px;
+    left: 28px;
+}
+
+/* ============================= */
