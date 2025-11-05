@@ -396,7 +396,7 @@ header {
 
 }
 
-.drawer-bottom.open { 
+.drawer-bottom.open {
     transform: translateY(0);
 }
 
@@ -448,7 +448,7 @@ header {
 
 /* FILTER BUTTON =========== Filter page */
 .filter-page {
-    display: block;
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -458,6 +458,10 @@ header {
     height: 100%;
     z-index: 12;
     background-color: #fff;
+}
+
+.filter-page.open {
+    display: block  ;
 }
 
 .filter-heading {
@@ -482,7 +486,7 @@ header {
     font-size: 14px;
 }
 
-.flex-filter-content {
+.filter-filterContent-div {
     display: flex;
     flex-direction: row;
     height: 100%;

@@ -2,9 +2,15 @@
 // products listing
 const gridItemCards = document.querySelector(".grid-item-cards");
 // sort button
+const sortBtn = document.getElementById("sort-btn");
 const drawerBottom = document.querySelector(".drawer-bottom");
 const drawerBackdrop = document.querySelector(".drawer-backdrop");
-const sortBtn = document.getElementById("sort-btn");
+// filter page
+const filterBtn = document.getElementById("filter-btn");
+const filterPage = document.querySelector(".filter-page");
+const filterFilterCntDiv = document.querySelector(".filter-filterContent-div");
+
+
 
 /* === RENDERING PRODUCTS =============*/
 function createProductCard(product) {
@@ -31,7 +37,7 @@ function createProductCard(product) {
                     <div class="price-cnt">
                         <span class="new-price-cnt">
                             <img src="assets/svg/rupee-symbol.svg" alt="rupees symbol">
-                            <span class="new-price">${product.price.orig_price - ((product.price.orig_price) * (product.price.discount_percentage) / 100)}</span>
+                            <span class="new-price">${(product.price.orig_price - ((product.price.orig_price) * (product.price.discount_percentage) / 100)).toFixed(0)}</span>
                         </span>
                         <span class="old-price-cnt">
                             <img src="assets/svg/old-rupee-symbol.svg" alt="rupees symbol">
@@ -67,22 +73,37 @@ function renderProducts(productList) {
         gridItemCards.innerHTML += createProductCard(product)
     });
 };
-/* to render all the products from the product list to grid items */
+/* to render all the @products from the product list to grid items */
 renderProducts(products);
 /* ================*/
 
+/* @sort button action */
 sortBtn.addEventListener("click", openDrawer);
-drawerBackdrop.addEventListener("click", closeDrawer);
 function openDrawer() {
     drawerBottom.classList.add("open");
     drawerBackdrop.classList.add("active");
 };
-drawerBackdrop.addEventListener("click",closeDrawer);
 
-function closeDrawer(){
+
+/* sort drawer close using backdrop */
+drawerBackdrop.addEventListener("click", closeDrawer);
+function closeDrawer() {
     drawerBottom.classList.remove("open");
     drawerBackdrop.classList.remove("active");
+};
+
+/* @filter button action */
+filterBtn.addEventListener("click", openFilterPage);
+function openFilterPage() {
+    filterPage.classList.add("open");
+};
+
+
+/* ===========Filter page generation =========== */
+
+// to generate an object of filters for each category with count value from products
+const filters = generateFilters();
+
+function createFilters(){
+    
 }
-
-
-

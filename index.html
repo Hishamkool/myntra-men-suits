@@ -126,7 +126,7 @@
         </div>
         <div class="floating-child">
             <div class="ripple-container">
-                <button class="floating-btn">
+                <button class="floating-btn" id="filter-btn">
                     <svg width="24" height="24" viewBox="0 0 24 24" class="result-icon">
                         <g fill="none" fill-rule="evenodd">
                             <path d="M0 0h24v24H0z" opacity="0.05"></path>
@@ -192,7 +192,7 @@
             </div>
         </div>
         <!-- Filter selections -->
-        <div class="filter-page" style="display: none;">
+        <div class="filter-page">
             <!-- heading filter and clear all button -->
             <div class="filter-heading">
                 <div class="filter-heading-child">
@@ -202,7 +202,7 @@
                     <a>CLEAR ALL</a>
                 </div>
             </div>
-            <div class="flex-filter-content">
+            <div class="filter-filterContent-div">
                 <!-- filtering option -->
                 <ul class="filters">
                     <li class="filter-by">Categories</li>
@@ -219,7 +219,7 @@
                 <div class="filter-options">
                     <!-- fist option category options  style="display: none;"-->
                     <div id="category-options">
-                        <ul class="categories-contents col-2 " style="display: none;">
+                        <ul class="categories-contents col-2 ">
                             <!-- add [selected-option] to category-list option to make the font color bold -->
                             <li class="category-list ">
                                 <!-- when putting the code in js make sure to have the same name id and label for variable in js extract it from json -->
@@ -294,8 +294,11 @@
             </div>
         </div>
     </div>
-    <!-- product list js -->
+    <!-- generate filters bassed on the products  -->
+    <script src="javascript/generate_filters.js"></script>
+    <!-- product list or suits js -->
     <script src="javascript/data/products_data.js"></script>
+    <!-- main js functions -->
     <script src="javascript/main_script.js"></script>
 </body>
 

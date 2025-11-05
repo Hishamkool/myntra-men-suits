@@ -306,8 +306,8 @@ const products = [
   {
     "id": 19,
     "prod_title": "Manthan Silk Kurta",
-    "description": "Men Cream Silk Blend Embroidered Kurta",
-    "url": "https://assets.myntassets.com/f_webp,dpr_1.5,q_30,w_400,c_limit,fl_progressive/assets/images/2025/NOVEMBER/1/fmAA4LXC_894964d0be0744d6b8750fc0b476daa6.jpg",
+    "description": "Men Cream Silk Blend Embroidered Kurta", 
+    "url": "https://assets.myntassets.com/f_webp,dpr_1.5,q_30,w_400,c_limit,fl_progressive/assets/images/23516234/2023/11/8/55051c6e-fecc-4805-b758-78cb0de8e2281699425637417-House-of-Pataudi-Men-Jashn-Embroidered-Mirror-Work-Kurta-168-1.jpg",
     "category": "Kurtas",
     "brand": "Manthan",
     "color": "cream",
