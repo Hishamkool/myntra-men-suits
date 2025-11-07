@@ -38,8 +38,8 @@ function generateFilters() {
 
     const filterObject = {
         "categories": categories,
-        "brands": brands,
-        "colors": colors,
+        "brand": brands,
+        "color": colors,
         "discount range": discountBucket
     };
 

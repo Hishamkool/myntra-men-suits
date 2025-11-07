@@ -205,7 +205,7 @@
             <div class="filter-filterContent-div">
                 <!-- filtering option -->
                 <ul class="filters">
-                    <li class="filter-by">Categories</li>
+                    <!--  <li class="filter-by">Categories</li>
                     <li class="filter-by">Size</li>
                     <li class="filter-by">Price</li>
                     <li class="filter-by">Brand</li>
@@ -213,83 +213,55 @@
                     <li class="filter-by">Discount Range</li>
                     <li class="filter-by">Bundles</li>
                     <li class="filter-by">Country of Origin</li>
-                    <li class="filter-by">More Filters</li>
+                    <li class="filter-by">More Filters</li> -->
                 </ul>
                 <!-- sub category of each filter -->
                 <div class="filter-options">
-                    <!-- fist option category options  style="display: none;"-->
-                    <div id="category-options">
-                        <ul class="categories-contents col-2 ">
-                            <!-- add [selected-option] to category-list option to make the font color bold -->
-                            <li class="category-list ">
-                                <!-- when putting the code in js make sure to have the same name id and label for variable in js extract it from json -->
-                                <label for="blazers" class="category-list-item">
-                                    <!-- add [checked] to input to show tick -->
-                                    <input class="filter-checkbox" type="checkbox" name="blazers" id="blazers">
-                                    <div class="checkbox-indicator">
-                                    </div>
-                                    <div class="filter-value ">Blazers</div>
-                                    <span class="filter-count">6511</span>
-                                </label>
-                            </li>
-
-                            <li class="category-list">
-                                <label for="suits" class="category-list-item">
-                                    <input class="filter-checkbox" type="checkbox" name="suits" id="suits">
-                                    <div class="checkbox-indicator">
-
-                                    </div>
-                                    <div class="filter-value">Suits</div>
-                                    <span class="filter-count">2738</span>
-                                </label>
-                            </li>
-                            <li class="category-list">
-                                <label for="kurta-sets" class="category-list-item">
-                                    <input class="filter-checkbox" type="checkbox" name="kurta-sets" id="kurta-sets">
-                                    <div class="checkbox-indicator">
-
-                                    </div>
-                                    <div class="filter-value">Kurta sets</div>
-                                    <span class="filter-count">34950</span>
-                                </label>
-                            </li>
-                            <li class="category-list">
-                                <label for="kurtas" class="category-list-item">
-                                    <input class="filter-checkbox" type="checkbox" name="kurtas" id="kurtas">
-                                    <div class="checkbox-indicator">
-
-                                    </div>
-                                    <div class="filter-value">Kurtas</div>
-                                    <span class="filter-count">44562</span>
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
+                 
+                    <ul class="categories-contents col-2 ">
+                        <!-- add [selected-option] to category-list option to make the font color bold -->
+                        <li class="category-list ">
+                            <!-- when putting the code in js make sure to have the same name id and label for variable in js extract it from json -->
+                            <label for="blazers" class="category-list-item">
+                                <!-- add [checked] to input to show tick -->
+                                <input class="filter-checkbox" type="checkbox" name="blazers" id="blazers">
+                                <div class="checkbox-indicator">
+                                </div>
+                                <div class="filter-value ">Blazers</div>
+                                <span class="filter-count">6511</span>
+                            </label>
+                        </li>
+                    </ul>
                     <!-- second option -->
-                    <div id="size-options">
-                        <div class="ripple-container col-2">
-                            <div class="client-search">
-                                <input class="search-input" type="text" placeholder="Search by Size">
-                                <img class="search-icon" src="assets/svg/filter/search-bar-icon.svg"
-                                    alt="search bar icon">
-                            </div>
-                            <ul>
-                                <li class="category-list selected-option">
-                                    <label for="3xs" class="category-list-item">
-                                        <!-- add [checked] to input to show tick -->
-                                        <input class="filter-checkbox" type="checkbox" name="3xs" id="3xs">
-                                        <div class="checkbox-indicator">
-                                        </div>
-                                        <div class="filter-value">3xs</div>
-                                        <span class="filter-count">11</span>
-                                    </label>
-                                </li>
-                            </ul>
-
+                    <div class="ripple-container col-2">
+                        <div class="client-search">
+                            <input class="search-input" type="text" placeholder="Search by Size">
+                            <img class="search-icon" src="assets/svg/filter/search-bar-icon.svg" alt="search bar icon">
                         </div>
                     </div>
+                    <ul>
+                        <li class="category-list selected-option">
+                            <label for="3xs" class="category-list-item">
+                             
+                                <input class="filter-checkbox" type="checkbox" name="3xs" id="3xs">
+                                <div class="checkbox-indicator">
+                                </div>
+                                <div class="filter-value">3xs</div>
+                                <span class="filter-count">11</span>
+                            </label>
+                        </li>
+                    </ul>
 
-                    <!-- end of filter options -->
+                 
+                </div>
+            </div>
+            <div class="filter-button-cnt">
+                <div class="filter-btn-div">
+                    <button class="filter-btn btn" id="close-filter">CLOSE</button>
+                </div>
+                <div class="button-border"></div>
+                <div class="filter-btn-div">
+                    <button class="filter-btn btn primary" id="apply-filter">APPLY</button>
                 </div>
             </div>
         </div>

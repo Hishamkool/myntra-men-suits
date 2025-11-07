@@ -38,6 +38,7 @@ body {
     --filter-search-border-color: #d4d5d9;
     /* background colors */
     --filters-background-colour: #f5f5f6;
+    --button-primary-color: #ff3e6c;
     --filter-search-background-color: #f4f4f5;
     /* line height */
     --default-line-height: 18.5714px;
@@ -325,12 +326,42 @@ header {
     width: 100%;
 }
 
+/* common floating button styles */
+.btn {
+    color: var(--sort-by-title-colors);
+    border-color: transparent;
+    background-color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    padding: 10px 12px;
+    cursor: pointer;
+    border: 1px solid nowrap;
+    line-height: 20px;
+    border-radius: 4px;
+    touch-action: manipulation;
+}
+
+/* common primary button style */
+.primary {
+    color: var(--button-primary-color);
+    font-weight: 700 !important;
+}
+
+/* filter buttons close and apply */
+.filter-btn {
+    height: 50px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
 .ripple-container {
     position: relative;
     overflow: hidden;
+    background-color: #fff;
 }
 
-/* floating buttons */
+/* @floating buttons sort and filter*/
 .floating-btn {
     border: transparent;
     background-color: #fff;
@@ -362,7 +393,7 @@ header {
     border-left: 1px solid var(--button-border-color);
 }
 
-/* SORT BUTTON =========== Bottom drawer */
+/* @SORT BUTTON =========== Bottom drawer */
 /* backdrop */
 .drawer-backdrop {
     position: fixed;
@@ -446,7 +477,7 @@ header {
 
 /* ====================================== */
 
-/* FILTER BUTTON =========== Filter page */
+/* @FILTER BUTTON =========== Filter page */
 .filter-page {
     display: none;
     position: fixed;
@@ -461,7 +492,7 @@ header {
 }
 
 .filter-page.open {
-    display: block  ;
+    display: block;
 }
 
 .filter-heading {
@@ -521,6 +552,20 @@ header {
     min-height: 0;
 }
 
+/* created from @js */
+.filter-option-section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+/* created from @js */
+.scroll-container {
+    flex: 1;
+    overflow-y: auto;
+
+}
 
 /*============= FILTER OPTIONS OR SUBOPTIONS OF FILTERS */
 /* common styles for fileter options */
@@ -541,7 +586,6 @@ header {
     border-bottom: 1px solid var(--button-border-color);
     line-height: 18.5714px;
     color: var(--sort-by-title-color);
-
     font-size: 13px;
 }
 
@@ -597,10 +641,25 @@ header {
     font-weight: 700;
 }
 
+/* ================= @FILTER PAGE =================  */
 .filter-count {
     color: var(--filter-count-color);
     font-size: 10px;
     line-height: 14.2857px;
+}
+
+/* filter floating buttons */
+.filter-button-cnt {
+    display: flex;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.filter-btn-div {
+    flex: 1;
 }
 
 /* Styles for search options */
@@ -612,6 +671,10 @@ header {
     margin-top: 10px;
     color: var(--sort-by-title-color);
     border-radius: 2px;
+    position: sticky;
+    top: 0;
+
+
     /* line-height: 18px; */
 }
 
@@ -631,8 +694,13 @@ header {
 /* search icon */
 .search-icon {
     position: absolute;
-    top: 23px;
-    left: 28px;
+    /*  top: 23px;
+    left: 28px; */
+    top: 11px;
+    left: 16px;
 }
+
+/* FILTER @PAGES */
+
 
 /* ============================= */

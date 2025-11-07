@@ -9,7 +9,15 @@ const drawerBackdrop = document.querySelector(".drawer-backdrop");
 const filterBtn = document.getElementById("filter-btn");
 const filterPage = document.querySelector(".filter-page");
 const filterFilterCntDiv = document.querySelector(".filter-filterContent-div");
+const querySelectorFilters = document.querySelector(".filters");
+const categoriesContents = document.querySelector(".categories-contents");
+const closeFilterPage = document.getElementById("close-filter");
+const applyFilterPage = document.getElementById("apply-filter");
+/* filter options */
+const filterOptionsContainer = document.querySelector(".filter-options");
 
+/* selected items set */
+let selectedFilters = {};
 
 
 /* === RENDERING PRODUCTS =============*/
@@ -77,33 +85,135 @@ function renderProducts(productList) {
 renderProducts(products);
 /* ================*/
 
-/* @sort button action */
-sortBtn.addEventListener("click", openDrawer);
-function openDrawer() {
+/* @sort opening drawer */
+sortBtn.addEventListener("click", () => {
     drawerBottom.classList.add("open");
     drawerBackdrop.classList.add("active");
-};
+});
 
 
-/* sort drawer close using backdrop */
-drawerBackdrop.addEventListener("click", closeDrawer);
-function closeDrawer() {
+
+/* closing sort drawer */
+drawerBackdrop.addEventListener("click", () => {
     drawerBottom.classList.remove("open");
     drawerBackdrop.classList.remove("active");
-};
+});
 
-/* @filter button action */
+
+/* @filter opening  */
 filterBtn.addEventListener("click", openFilterPage);
 function openFilterPage() {
     filterPage.classList.add("open");
 };
-
+/* @close filter page */
+closeFilterPage.addEventListener("click", () => {
+    filterPage.classList.remove("open");
+});
 
 /* ===========Filter page generation =========== */
 
 // to generate an object of filters for each category with count value from products
-const filters = generateFilters();
 
-function createFilters(){
-    
+/* to render the options page while selecting a filter */
+function renderFilterOptions(filterName, filterOptions) {
+     filterOptionsContainer.innerHTML = "";
+
+    const section = document.createElement("div");
+    section.classList.add("filter-option-section");
+
+    if (["size", "color", "brand",].includes(filterName)) {
+        const rippleCnt = document.createElement("div");
+        rippleCnt.classList.add("ripple-container", "col-2");
+
+        const searchDiv = document.createElement("div");
+        searchDiv.classList.add("client-search");
+        searchDiv.innerHTML =
+
+            `
+        <input class="search-input" type="text" placeholder="Search by ${filterName}">
+        <img class="search-icon" src="assets/svg/filter/search-bar-icon.svg"
+                                    alt="search bar icon">
+        `;
+        rippleCnt.appendChild(searchDiv)
+        section.appendChild(rippleCnt);
+    }
+    const scrollDiv = document.createElement("div");
+    scrollDiv.classList.add("scroll-container");
+
+    const ul = document.createElement("ul");
+    ul.classList.add("category-list");
+    ul.innerHTML = "";
+    Object.entries(filterOptions).forEach(([Option, count]) => {
+
+        const li = document.createElement("li");
+        li.classList.add("category-list");
+        // here option is like the key of the any category say "Red"
+        // count is no. of item say "4" (4 items in color red)
+        // filterName is the keys of filter say "color".
+        const isSelected = selectedFilters[filterName]?.has(Option);
+        
+        li.innerHTML = ` 
+             <label for="${Option}" class="category-list-item ${isSelected ? 'selected-option': ''}">
+            <!-- add [checked] to input to show tick -->
+            <input class="filter-checkbox" type="checkbox" name="${Option}" id="${Option}" ${isSelected ? 'checked' : '' }>
+            <div class="checkbox-indicator">
+            </div>
+            <div class="filter-value ">${Option}</div>
+            <span class="filter-count">${count}</span>
+        </label> 
+        `;
+        ul.appendChild(li);
+    });
+    scrollDiv.appendChild(ul)
+    section.appendChild(scrollDiv);
+    filterOptionsContainer.appendChild(section);
+};
+
+/* generate keys and for each key create object when onclick */
+function renderFilters() {
+    querySelectorFilters.innerHTML = "";
+    let keys = Object.keys(filterObj);
+    keys.forEach((key) => {
+        let li = document.createElement("li");
+        li.classList.add("filter-by");
+        li.textContent = key;
+        li.addEventListener("click", () => {
+            renderFilterOptions(key, filterObj[key]);
+            attachFilterEvents(key);
+        })
+        querySelectorFilters.appendChild(li);
+    });
 }
+/* getting the filter object generated form the products */
+let filterObj = generateFilters();
+/* rendering filter page */
+renderFilters(filterObj);
+
+
+/* click events on filter options */
+function attachFilterEvents(filterName) {
+    /* this filterCheckbox are not generated yet to put it on the top */
+    const filterCheckBox = document.querySelectorAll(".filter-checkbox");
+
+    filterCheckBox.forEach((checkbox) => {
+        checkbox.addEventListener("change", (e) => {
+            if (!selectedFilters[filterName]) {
+                selectedFilters[filterName] = new Set();
+            }
+            if (checkbox.checked) {
+                checkbox.closest(".category-list").classList.add("selected-option");
+                checkbox.classList.add("checked");
+                selectedFilters[filterName].add(checkbox.id);
+            } else {
+                checkbox.closest(".category-list").classList.remove("selected-option");
+                checkbox.classList.remove("checked");
+                selectedFilters[filterName].delete(checkbox.id);
+            }
+            console.log("selected filters:", selectedFilters);
+
+        })
+    })
+};
+
+
+
