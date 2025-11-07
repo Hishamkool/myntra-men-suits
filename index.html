@@ -193,68 +193,56 @@
         </div>
         <!-- Filter selections -->
         <div class="filter-page">
-            <!-- heading filter and clear all button -->
+            <!-- Heading filter and clear all button -->
             <div class="filter-heading">
                 <div class="filter-heading-child">
                     <span>FILTERS</span>
                 </div>
                 <div class="filter-heading-child">
-                    <a>CLEAR ALL</a>
+                    <a id="clear-all">CLEAR ALL</a>
                 </div>
             </div>
+
             <div class="filter-filterContent-div">
-                <!-- filtering option -->
+                <!-- LEFT SIDE: Filtering categories (clickable filter names) -->
                 <ul class="filters">
-                    <!--  <li class="filter-by">Categories</li>
-                    <li class="filter-by">Size</li>
-                    <li class="filter-by">Price</li>
-                    <li class="filter-by">Brand</li>
-                    <li class="filter-by">Color</li>
-                    <li class="filter-by">Discount Range</li>
-                    <li class="filter-by">Bundles</li>
-                    <li class="filter-by">Country of Origin</li>
-                    <li class="filter-by">More Filters</li> -->
+                    <!-- @JS will generate:
+                <li class="filter-by">Brand</li>
+                <li class="filter-by">Color</li>
+                <li class="filter-by">Size</li>
+                ...
+            -->
                 </ul>
-                <!-- sub category of each filter -->
+
+                <!-- RIGHT SIDE: Filter options for each category -->
                 <div class="filter-options">
-                 
-                    <ul class="categories-contents col-2 ">
-                        <!-- add [selected-option] to category-list option to make the font color bold -->
-                        <li class="category-list ">
-                            <!-- when putting the code in js make sure to have the same name id and label for variable in js extract it from json -->
-                            <label for="blazers" class="category-list-item">
-                                <!-- add [checked] to input to show tick -->
-                                <input class="filter-checkbox" type="checkbox" name="blazers" id="blazers">
-                                <div class="checkbox-indicator">
-                                </div>
-                                <div class="filter-value ">Blazers</div>
-                                <span class="filter-count">6511</span>
-                            </label>
-                        </li>
-                    </ul>
-                    <!-- second option -->
+                    <!-- @JS will generate:
+                <div class="filter-option-section" id="filter-section-brand">
                     <div class="ripple-container col-2">
                         <div class="client-search">
-                            <input class="search-input" type="text" placeholder="Search by Size">
+                            <input class="search-input" type="text" placeholder="Search by brand">
                             <img class="search-icon" src="assets/svg/filter/search-bar-icon.svg" alt="search bar icon">
                         </div>
                     </div>
-                    <ul>
-                        <li class="category-list selected-option">
-                            <label for="3xs" class="category-list-item">
-                             
-                                <input class="filter-checkbox" type="checkbox" name="3xs" id="3xs">
-                                <div class="checkbox-indicator">
-                                </div>
-                                <div class="filter-value">3xs</div>
-                                <span class="filter-count">11</span>
-                            </label>
-                        </li>
-                    </ul>
-
-                 
+                    <div class="scroll-container">
+                        <ul class="categories-contents col-2">
+                            <li class="category-list">
+                                <label class="category-list-item">
+                                    <input class="filter-checkbox" type="checkbox" id="Nike">
+                                    <div class="checkbox-indicator"></div>
+                                    <div class="filter-value">Nike</div>
+                                    <span class="filter-count">12</span>
+                                </label>
+                            </li>
+                            ...
+                        </ul>
+                    </div>
+                </div>
+            -->
                 </div>
             </div>
+
+            <!-- Bottom Buttons -->
             <div class="filter-button-cnt">
                 <div class="filter-btn-div">
                     <button class="filter-btn btn" id="close-filter">CLOSE</button>

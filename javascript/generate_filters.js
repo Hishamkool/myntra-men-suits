@@ -35,12 +35,12 @@ function generateFilters() {
         console.log("colors", colors);
         console.log("discount bucket", discountBucket);
     }
-
+    /* dont add spaces in key names because we are using querry selectors for selection set */
     const filterObject = {
         "categories": categories,
         "brand": brands,
         "color": colors,
-        "discount range": discountBucket
+        "discount_range": discountBucket
     };
 
 

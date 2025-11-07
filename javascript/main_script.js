@@ -114,86 +114,101 @@ closeFilterPage.addEventListener("click", () => {
 
 // to generate an object of filters for each category with count value from products
 
-/* to render the options page while selecting a filter */
-function renderFilterOptions(filterName, filterOptions) {
-     filterOptionsContainer.innerHTML = "";
+/* function to render all filter optionns */
+function renderAllFilterOptions(filterObj) {
+    filterOptionsContainer.innerHTML = "";
+    Object.entries(filterObj).forEach(([filterName, FilterOptions]) => {
+        const section = document.createElement("div");
+        section.classList.add("filter-option-section");
+        section.id = `filter-section-${filterName}`;
+        section.style.display = "none";
+        /* adding search bar in case of color , brand .... */
+        if (['size', 'color', 'brand'].includes(filterName)) {
+            const rippleCnt = document.createElement("div");
+            rippleCnt.classList.add("ripple-container", "col-2");
 
-    const section = document.createElement("div");
-    section.classList.add("filter-option-section");
-
-    if (["size", "color", "brand",].includes(filterName)) {
-        const rippleCnt = document.createElement("div");
-        rippleCnt.classList.add("ripple-container", "col-2");
-
-        const searchDiv = document.createElement("div");
-        searchDiv.classList.add("client-search");
-        searchDiv.innerHTML =
-
-            `
-        <input class="search-input" type="text" placeholder="Search by ${filterName}">
-        <img class="search-icon" src="assets/svg/filter/search-bar-icon.svg"
+            const searchDiv = document.createElement("div");
+            searchDiv.classList.add("client-search");
+            searchDiv.innerHTML =
+                `
+            <input class="search-input" type="text" placeholder="Search by ${filterName}">
+            <img class="search-icon" src="assets/svg/filter/search-bar-icon.svg"
                                     alt="search bar icon">
-        `;
-        rippleCnt.appendChild(searchDiv)
-        section.appendChild(rippleCnt);
-    }
-    const scrollDiv = document.createElement("div");
-    scrollDiv.classList.add("scroll-container");
+            `;
+            rippleCnt.appendChild(searchDiv);
+            section.appendChild(rippleCnt);
 
-    const ul = document.createElement("ul");
-    ul.classList.add("category-list");
-    ul.innerHTML = "";
-    Object.entries(filterOptions).forEach(([Option, count]) => {
+        };
 
-        const li = document.createElement("li");
-        li.classList.add("category-list");
-        // here option is like the key of the any category say "Red"
-        // count is no. of item say "4" (4 items in color red)
-        // filterName is the keys of filter say "color".
-        const isSelected = selectedFilters[filterName]?.has(Option);
-        
-        li.innerHTML = ` 
-             <label for="${Option}" class="category-list-item ${isSelected ? 'selected-option': ''}">
+        const scrollDiv = document.createElement("div");
+        scrollDiv.classList.add("scroll-container");
+
+        const ul = document.createElement("ul");
+        ul.classList.add("categories-contents", "col-2");
+
+        Object.entries(FilterOptions).forEach(([Option, count]) => {
+            const li = document.createElement("li");
+            li.classList.add("category-list");
+
+            const isSelected = selectedFilters[filterName]?.has(Option);
+            li.innerHTML = `
+            <label for="${Option}" class="category-list-item ${isSelected ? 'selected-option' : ''}">
             <!-- add [checked] to input to show tick -->
-            <input class="filter-checkbox" type="checkbox" name="${Option}" id="${Option}" ${isSelected ? 'checked' : '' }>
-            <div class="checkbox-indicator">
-            </div>
-            <div class="filter-value ">${Option}</div>
-            <span class="filter-count">${count}</span>
-        </label> 
-        `;
-        ul.appendChild(li);
+                <input class="filter-checkbox" type="checkbox" name="${Option}" id="${Option}" ${isSelected ? 'checked' : ''}>
+                <div class="checkbox-indicator"></div> 
+                <div class="filter-value ">${Option}</div>
+                <span class="filter-count">${count}</span>
+            </label> 
+            `;
+            ul.appendChild(li);
+        });
+        scrollDiv.appendChild(ul);
+        section.appendChild(scrollDiv);
+        filterOptionsContainer.appendChild(section);
     });
-    scrollDiv.appendChild(ul)
-    section.appendChild(scrollDiv);
-    filterOptionsContainer.appendChild(section);
 };
+
+
 
 /* generate keys and for each key create object when onclick */
 function renderFilters() {
-    querySelectorFilters.innerHTML = "";
+
     let keys = Object.keys(filterObj);
-    keys.forEach((key) => {
+    keys.forEach((filter) => {
+       
         let li = document.createElement("li");
         li.classList.add("filter-by");
-        li.textContent = key;
+
+        li.textContent = filter.replace("_"," ");
         li.addEventListener("click", () => {
-            renderFilterOptions(key, filterObj[key]);
-            attachFilterEvents(key);
+            showFilter(filter);
+            attachFilterEvents(filter);
         })
         querySelectorFilters.appendChild(li);
     });
-}
+};
+
+/* show filter options when selecting an item */
+function showFilter(filterName) {
+    document.querySelectorAll(".filter-option-section").forEach((filterSection) => {
+        filterSection.style.display = "none";
+    });
+    document.getElementById(`filter-section-${filterName}`).style.display = "block";
+
+};
+
+
 /* getting the filter object generated form the products */
 let filterObj = generateFilters();
 /* rendering filter page */
 renderFilters(filterObj);
+renderAllFilterOptions(filterObj);
 
 
 /* click events on filter options */
 function attachFilterEvents(filterName) {
     /* this filterCheckbox are not generated yet to put it on the top */
-    const filterCheckBox = document.querySelectorAll(".filter-checkbox");
+    const filterCheckBox = document.querySelectorAll(`#filter-section-${filterName} .filter-checkbox`);
 
     filterCheckBox.forEach((checkbox) => {
         checkbox.addEventListener("change", (e) => {
@@ -211,8 +226,8 @@ function attachFilterEvents(filterName) {
             }
             console.log("selected filters:", selectedFilters);
 
-        })
-    })
+        });
+    });
 };
 
 
