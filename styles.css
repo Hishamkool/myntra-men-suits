@@ -508,6 +508,9 @@ header {
     font-weight: 700;
     text-align: left;
 }
+#clear-all {
+    cursor: pointer;
+}
 
 /* clear all button */
 .filter-heading-child:nth-child(2) {

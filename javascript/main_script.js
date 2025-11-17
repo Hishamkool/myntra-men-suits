@@ -6,13 +6,15 @@ const sortBtn = document.getElementById("sort-btn");
 const drawerBottom = document.querySelector(".drawer-bottom");
 const drawerBackdrop = document.querySelector(".drawer-backdrop");
 // filter page
+/* filter heading */
+const clearAllBtn = document.getElementById("clear-all");
 const filterBtn = document.getElementById("filter-btn");
 const filterPage = document.querySelector(".filter-page");
 const filterFilterCntDiv = document.querySelector(".filter-filterContent-div");
 const querySelectorFilters = document.querySelector(".filters");
 const categoriesContents = document.querySelector(".categories-contents");
 const closeFilterPage = document.getElementById("close-filter");
-const applyFilterPage = document.getElementById("apply-filter");
+const applyFilterBtn = document.getElementById("apply-filter");
 /* filter options */
 const filterOptionsContainer = document.querySelector(".filter-options");
 
@@ -129,6 +131,7 @@ function renderAllFilterOptions(filterObj) {
 
             const searchDiv = document.createElement("div");
             searchDiv.classList.add("client-search");
+            searchDiv.id = `${filterName}-search`;
             searchDiv.innerHTML =
                 `
             <input class="search-input" type="text" placeholder="Search by ${filterName}">
@@ -138,7 +141,9 @@ function renderAllFilterOptions(filterObj) {
             rippleCnt.appendChild(searchDiv);
             section.appendChild(rippleCnt);
 
+
         };
+
 
         const scrollDiv = document.createElement("div");
         scrollDiv.classList.add("scroll-container");
@@ -175,11 +180,11 @@ function renderFilters() {
 
     let keys = Object.keys(filterObj);
     keys.forEach((filter) => {
-       
+
         let li = document.createElement("li");
         li.classList.add("filter-by");
 
-        li.textContent = filter.replace("_"," ");
+        li.textContent = filter.replace("_", " ");
         li.addEventListener("click", () => {
             showFilter(filter);
             attachFilterEvents(filter);
@@ -230,5 +235,54 @@ function attachFilterEvents(filterName) {
     });
 };
 
+/* function to clear all selected filters */
+clearAllBtn.addEventListener("click", () => {
+    selectedFilters = {};
+
+    // to disable tick mark i need to remove checked from all filter-checkbox
+    document.querySelectorAll(".filter-checkbox").forEach((checkbox) => {
+        checkbox.checked = false;
+        checkbox.classList.remove("checked");
+    });
+    // to disable bold text i need to remove all sected-option from category-list li items
+    document.querySelectorAll(".category-list").forEach((catList) => {
+        catList.classList.remove("selected-option");
+    });
+    renderProducts(products);
+});
+
+// function to apply those filters
+
+applyFilterBtn.addEventListener("click", () => {
+    console.log("apply filters clicked");
+    let filteredList = products;;
 
 
+
+
+    for (let [filterName, filterOption] of Object.entries(selectedFilters)) {
+        if (filterOption.size === 0) continue;
+
+        filteredList = filteredList.filter((item) => {
+            let productValue = item[filterName];
+            // i dont have a discount_range key in products so i have handle that
+            if (filterName === "discount_range") {
+                return [...filterOption].some((rangeString) => {
+                    const num = parseInt(rangeString);
+                    return item.price.discount_percentage >= num; s
+                });
+            }
+            if (Array.isArray(productValue)) {
+                return [...filterOption].some((selectedValue) => {
+                    productValue.includes(selectedValue);
+                });
+            }
+            return filterOption.has(productValue);
+
+        });
+    }
+
+    renderProducts(filteredList);
+
+    filterPage.classList.remove("open");
+});
