@@ -5,6 +5,13 @@ const gridItemCards = document.querySelector(".grid-item-cards");
 const sortBtn = document.getElementById("sort-btn");
 const drawerBottom = document.querySelector(".drawer-bottom");
 const drawerBackdrop = document.querySelector(".drawer-backdrop");
+/* sorting */
+const sortByPopularity = document.getElementById("sort-popularity");
+const sortByLatest = document.getElementById("sort-latest");
+const sortByDiscount = document.getElementById("sort-discount");
+const sortByHigh2Low = document.getElementById("sort-price-high-low");
+const sortByLow2High = document.getElementById("sort-price-low-high");
+const sortByCusRating = document.getElementById("sort-customer-rating");
 // filter page
 /* filter heading */
 const clearAllBtn = document.getElementById("clear-all");
@@ -17,6 +24,8 @@ const closeFilterPage = document.getElementById("close-filter");
 const applyFilterBtn = document.getElementById("apply-filter");
 /* filter options */
 const filterOptionsContainer = document.querySelector(".filter-options");
+/* current items shown after filteing and sorting */
+let currentList = [...products];
 
 /* selected items set */
 let selectedFilters = {};
@@ -78,13 +87,14 @@ function createProductCard(product) {
 
 // function to render all the products to grid container
 function renderProducts(productList) {
+    currentList = [...productList]
     gridItemCards.innerHTML = "";
     productList.forEach((product) => {
         gridItemCards.innerHTML += createProductCard(product)
     });
 };
 /* to render all the @products from the product list to grid items */
-renderProducts(products);
+renderProducts(currentList);
 /* ================*/
 
 /* @sort opening drawer */
@@ -100,6 +110,7 @@ drawerBackdrop.addEventListener("click", () => {
     drawerBottom.classList.remove("open");
     drawerBackdrop.classList.remove("active");
 });
+
 
 
 /* @filter opening  */
@@ -204,7 +215,7 @@ function showFilter(filterName) {
 
 
 /* getting the filter object generated form the products */
-let filterObj = generateFilters();
+let filterObj = generateFilters(currentList);
 /* rendering filter page */
 renderFilters(filterObj);
 renderAllFilterOptions(filterObj);
@@ -229,7 +240,7 @@ function attachFilterEvents(filterName) {
                 checkbox.classList.remove("checked");
                 selectedFilters[filterName].delete(checkbox.id);
             }
-            console.log("selected filters:", selectedFilters);
+            // console.log("selected filters:", selectedFilters);
 
         });
     });
@@ -248,17 +259,15 @@ clearAllBtn.addEventListener("click", () => {
     document.querySelectorAll(".category-list").forEach((catList) => {
         catList.classList.remove("selected-option");
     });
-    renderProducts(products);
+    currentList = [...products];
+    renderProducts(currentList);
 });
 
-// function to apply those filters
 
+// function to @apply those filters
 applyFilterBtn.addEventListener("click", () => {
-    console.log("apply filters clicked");
-    let filteredList = products;;
-
-
-
+    console.log("selected filters:", selectedFilters);
+    let filteredList = [...products];
 
     for (let [filterName, filterOption] of Object.entries(selectedFilters)) {
         if (filterOption.size === 0) continue;
@@ -269,20 +278,76 @@ applyFilterBtn.addEventListener("click", () => {
             if (filterName === "discount_range") {
                 return [...filterOption].some((rangeString) => {
                     const num = parseInt(rangeString);
-                    return item.price.discount_percentage >= num; s
+                    return item.price.discount_percentage >= num;
                 });
             }
             if (Array.isArray(productValue)) {
-                return [...filterOption].some((selectedValue) => {
-                    productValue.includes(selectedValue);
-                });
+                return [...filterOption].some((selectedValue) =>
+                    productValue.includes(selectedValue)
+                );
             }
             return filterOption.has(productValue);
 
         });
     }
-
-    renderProducts(filteredList);
+    currentList = filteredList;
+    console.log(`filtered `, currentList);
+    renderProducts(currentList);
 
     filterPage.classList.remove("open");
+});
+
+/* @sorting */
+// sorting by discount percentage hight to low
+sortByDiscount.addEventListener("click", () => {
+    currentList = [...currentList].sort((a, b) => {
+        return b.price.discount_percentage - a.price.discount_percentage
+    });
+    renderProducts(currentList);
+});
+
+// soriting by new tag or added latest to list
+sortByLatest.addEventListener("click", () => {
+    currentList = [...currentList].sort((a, b) => {
+
+        if (b.is_new != a.is_new) { // if both has is_new or both dosent have is_new then latest id first
+            //  if either one has is_new then latest is new is put first
+            return b.is_new - a.is_new;
+        }
+        return b.id - a.id;
+    });
+    renderProducts(currentList);
+});
+// sorting by no.of ratings
+sortByPopularity.addEventListener("click", () => {
+    currentList = [...currentList].sort((a, b) => {
+        const aRatngs = a.has_rating ? a.rating_count : -1;
+        const bRatngs = b.has_rating ? b.rating_count : -1;
+        return bRatngs - aRatngs;
+    });
+    renderProducts(currentList);
+});
+
+// soting by price high to low (discounted price is the selling price)
+sortByHigh2Low.addEventListener("click", () => {
+    currentList = [...currentList].sort((a, b) => {
+        return b.price.discounted_price - a.price.discounted_price;
+    });
+    renderProducts(currentList);
+});
+// soting by price low to high (discounted price is the selling price)
+sortByLow2High.addEventListener("click", () => {
+    currentList = [...currentList].sort((a, b) => {
+        return a.price.discounted_price - b.price.discounted_price;
+    });
+    renderProducts(currentList);
+});
+// sorting by customer rating
+sortByCusRating.addEventListener("click", () => {
+    currentList = [...currentList].sort((a, b) => {
+        const aRatngs = a.has_rating ? a.rating_text : -1;
+        const bRatngs = b.has_rating ? b.rating_text : -1;
+        return bRatngs - aRatngs;
+    });
+    renderProducts(currentList);
 });

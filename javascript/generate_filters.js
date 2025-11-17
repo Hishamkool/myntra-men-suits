@@ -1,5 +1,5 @@
 /* function to generate filters based on products we have */
-function generateFilters() {
+function generateFilters(currentList) {
     let debug = false;
     // count each items for each category
     const countItem = (array, key) => array.reduce((acc, item) => {
@@ -13,16 +13,16 @@ function generateFilters() {
         }
     }, {});
     // creating category objects from product list
-    const categories = countItem(products, "category");
+    const categories = countItem(currentList, "category");
     // object for brands
-    const brands = countItem(products, "brand");
+    const brands = countItem(currentList, "brand");
     // objects for colors
-    const colors = countItem(products, "color");
+    const colors = countItem(currentList, "color");
     // discount items values
     let discountBucket = {};
     const discountRanges = [10, 20, 30, 40, 50, 60, 70, 80];
     discountRanges.forEach((disValue) => {
-        const count = products.filter(p => p.price.discount_percentage >= disValue).length;
+        const count = currentList.filter(p => p.price.discount_percentage >= disValue).length;
         discountBucket[`${disValue}% and higher`] = count;
     });
 
@@ -44,7 +44,7 @@ function generateFilters() {
     };
 
 
-    console.log("Generated filter object:", filterObject);
+    debug && console.log("Generated filter object:", filterObject);
 
     return filterObject;
 
