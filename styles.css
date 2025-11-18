@@ -442,6 +442,22 @@ header {
     border-bottom: 1px solid var(--button-border-color);
 }
 
+.sort-item.selected {
+    border-left: 2px solid #ff3e6c;
+}
+
+.sort-item.selected .sort-btns-title {
+    color: #ff517b !important;
+    font-weight: 700 !important;
+}
+
+
+.sort-item {
+    background: none;
+    border: none;
+
+}
+
 /* all sort buttons */
 .sort-buttons {
     position: relative;
@@ -509,6 +525,7 @@ header {
     font-weight: 700;
     text-align: left;
 }
+
 #clear-all {
     cursor: pointer;
 }
@@ -547,6 +564,11 @@ header {
     color: var(--sort-by-title-color);
     padding: 0px 15px;
     border-bottom: 1px solid var(--button-border-color);
+}
+
+.filter-by.selected {
+    font-weight: 700;
+    background: #fff;
 }
 
 /* options for the selcted categores */

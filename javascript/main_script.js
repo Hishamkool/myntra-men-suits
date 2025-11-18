@@ -12,6 +12,9 @@ const sortByDiscount = document.getElementById("sort-discount");
 const sortByHigh2Low = document.getElementById("sort-price-high-low");
 const sortByLow2High = document.getElementById("sort-price-low-high");
 const sortByCusRating = document.getElementById("sort-customer-rating");
+// each item
+const sortItems = document.querySelectorAll(".sort-item");
+
 // filter page
 /* filter heading */
 const clearAllBtn = document.getElementById("clear-all");
@@ -187,30 +190,40 @@ function renderAllFilterOptions(filterObj) {
 
 
 /* generate keys and for each key create object when onclick */
-function renderFilters() {
-
+function renderFilters(filterObj) {
     let keys = Object.keys(filterObj);
     keys.forEach((filter) => {
-
         let li = document.createElement("li");
         li.classList.add("filter-by");
 
         li.textContent = filter.replace("_", " ");
+        li.textContent = li.textContent.charAt(0).toUpperCase() + li.textContent.slice(1);
         li.addEventListener("click", () => {
+            selectFilter(li);
             showFilter(filter);
             attachFilterEvents(filter);
-        })
+        });
         querySelectorFilters.appendChild(li);
     });
 };
+
+// function to select first filter
+function selectFilter(selectedFilter) {
+    const allFilters = document.querySelectorAll(".filter-by");
+    allFilters.forEach((filterName) => {
+        filterName.classList.remove("selected");
+    });
+    selectedFilter.classList.add("selected");
+}
 
 /* show filter options when selecting an item */
 function showFilter(filterName) {
     document.querySelectorAll(".filter-option-section").forEach((filterSection) => {
         filterSection.style.display = "none";
     });
-    document.getElementById(`filter-section-${filterName}`).style.display = "block";
-
+    const filter =
+        document.getElementById(`filter-section-${filterName}`);
+    filter.style.display = "block";
 };
 
 
@@ -219,9 +232,17 @@ let filterObj = generateFilters(currentList);
 /* rendering filter page */
 renderFilters(filterObj);
 renderAllFilterOptions(filterObj);
+// showing the first filter by default when opening filter page
+const firstFilterObj = Object.keys(filterObj)[0];
 
+if (firstFilterObj) {
+    const firstFilter = document.querySelectorAll(".filter-by")[0];
+    selectFilter(firstFilter);
+    showFilter(firstFilterObj);
+    attachFilterEvents(firstFilterObj);
+}
 
-/* click events on filter options */
+/* click events on filter options - creting sets for each filtername and also adding checkboxes */
 function attachFilterEvents(filterName) {
     /* this filterCheckbox are not generated yet to put it on the top */
     const filterCheckBox = document.querySelectorAll(`#filter-section-${filterName} .filter-checkbox`);
@@ -298,6 +319,13 @@ applyFilterBtn.addEventListener("click", () => {
 });
 
 /* @sorting */
+// item selection 
+sortItems.forEach((item) => {
+    item.addEventListener("click", () => {
+        sortItems.forEach((item) => item.classList.remove("selected"));
+        item.classList.add("selected");
+    })
+});
 // sorting by discount percentage hight to low
 sortByDiscount.addEventListener("click", () => {
     currentList = [...currentList].sort((a, b) => {
