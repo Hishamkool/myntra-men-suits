@@ -1,4 +1,5 @@
 /* function to generate filters based on products we have */
+
 function generateFilters(currentList) {
     let debug = false;
     // count each items for each category
@@ -37,10 +38,10 @@ function generateFilters(currentList) {
     }
     /* dont add spaces in key names because we are using querry selectors for selection set */
     const filterObject = {
-        "category": categories,
-        "brand": brands,
-        "color": colors,
-        "discount_range": discountBucket
+        [CATEGORIES]: categories,
+        [BRAND]: brands,
+        [COLOR]: colors,
+        [DISCOUNT_RANGE]: discountBucket
     };
 
 

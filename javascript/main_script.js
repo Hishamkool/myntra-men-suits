@@ -1,4 +1,10 @@
 /* constants */
+/* constant product data keys */
+const COLOR = "color";
+const CATEGORIES = "category";
+const BRAND = "brand";
+const DISCOUNT_RANGE = "discount_range";
+
 // products listing
 const gridItemCards = document.querySelector(".grid-item-cards");
 // sort button
@@ -26,6 +32,7 @@ const categoriesContents = document.querySelector(".categories-contents");
 const closeFilterPage = document.getElementById("close-filter");
 const applyFilterBtn = document.getElementById("apply-filter");
 /* filter options */
+let originalFilterOptions = []; // using for searching filters
 const filterOptionsContainer = document.querySelector(".filter-options");
 /* current items shown after filteing and sorting */
 let currentList = [...products];
@@ -133,35 +140,32 @@ closeFilterPage.addEventListener("click", () => {
 /* function to render all filter optionns */
 function renderAllFilterOptions(filterObj) {
     filterOptionsContainer.innerHTML = "";
+
+
+
     Object.entries(filterObj).forEach(([filterName, FilterOptions]) => {
         const section = document.createElement("div");
         section.classList.add("filter-option-section");
         section.id = `filter-section-${filterName}`;
         section.style.display = "none";
         /* adding search bar in case of color , brand .... */
-        if (['size', 'color', 'brand'].includes(filterName)) {
+        if (['size', COLOR, BRAND].includes(filterName)) {
             const rippleCnt = document.createElement("div");
             rippleCnt.classList.add("ripple-container", "col-2");
-
             const searchDiv = document.createElement("div");
             searchDiv.classList.add("client-search");
             searchDiv.id = `${filterName}-search`;
             searchDiv.innerHTML =
                 `
-            <input class="search-input" type="text" placeholder="Search by ${filterName}">
+            <input class="search-input" id="search-input-${filterName}" type="text" placeholder="Search by ${filterName}">
             <img class="search-icon" src="assets/svg/filter/search-bar-icon.svg"
                                     alt="search bar icon">
             `;
             rippleCnt.appendChild(searchDiv);
             section.appendChild(rippleCnt);
-
-
         };
-
-
         const scrollDiv = document.createElement("div");
         scrollDiv.classList.add("scroll-container");
-
         const ul = document.createElement("ul");
         ul.classList.add("categories-contents", "col-2");
 
@@ -171,6 +175,8 @@ function renderAllFilterOptions(filterObj) {
 
             const isSelected = selectedFilters[filterName]?.has(Option);
             li.innerHTML = `
+            
+            <!-- add [selected-option] to label to highlight -->
             <label for="${Option}" class="category-list-item ${isSelected ? 'selected-option' : ''}">
             <!-- add [checked] to input to show tick -->
                 <input class="filter-checkbox" type="checkbox" name="${Option}" id="${Option}" ${isSelected ? 'checked' : ''}>
@@ -184,18 +190,56 @@ function renderAllFilterOptions(filterObj) {
         scrollDiv.appendChild(ul);
         section.appendChild(scrollDiv);
         filterOptionsContainer.appendChild(section);
+        searchFilter(filterName);
     });
+
 };
+// @search functionality for filter option with lot of data 
+function searchFilter(filterName) {
+    const filter = document.getElementById(`search-input-${filterName}`);
+    if (!filter) {
+        return;
+    }
+    originalFilterOptions[filterName] = Object.keys(filterObj[filterName]);
+    console.log("original filter options:", originalFilterOptions);
+    filter.addEventListener("input", (e) => {
+        let inputValue = e.target.value;
+        inputValue = inputValue.toLowerCase();
+        console.log("serach value: ", inputValue);
+        const result = originalFilterOptions[filterName].filter((option) => {
+            return option.toLowerCase().includes(inputValue);
+        });
+        const ul = document.querySelector(`#filter-section-${filterName} .categories-contents`);
+        ul.innerHTML = "";
+        result.forEach((Option) => {
+            const catlist = document.createElement("li");
+            catlist.classList.add("category-list");
 
+            const isSelected = selectedFilters[filterName]?.has(Option);
+            catlist.innerHTML = `
+            <!-- add [selected-option] to label to highlight -->
+            <label for="${Option}" class="category-list-item ${isSelected ? 'selected-option' : ''}">
+            <!-- add [checked] to input to show tick -->
+                <input class="filter-checkbox" type="checkbox" name="${Option}" id="${Option}" ${isSelected ? 'checked' : ''}>
+                <div class="checkbox-indicator"></div> 
+                <div class="filter-value ">${Option}</div>
+                <span class="filter-count"> </span>
+            </label> 
+            `;
 
+            ul.appendChild(catlist);
+            console.log("filtered", result);
+        });
+    });
+}
 
 /* generate keys and for each key create object when onclick */
 function renderFilters(filterObj) {
     let keys = Object.keys(filterObj);
+    console.log(originalFilterOptions);
     keys.forEach((filter) => {
         let li = document.createElement("li");
         li.classList.add("filter-by");
-
         li.textContent = filter.replace("_", " ");
         li.textContent = li.textContent.charAt(0).toUpperCase() + li.textContent.slice(1);
         li.addEventListener("click", () => {
@@ -207,7 +251,7 @@ function renderFilters(filterObj) {
     });
 };
 
-// function to select first filter
+// function to highlight selected filter
 function selectFilter(selectedFilter) {
     const allFilters = document.querySelectorAll(".filter-by");
     allFilters.forEach((filterName) => {
@@ -232,15 +276,16 @@ let filterObj = generateFilters(currentList);
 /* rendering filter page */
 renderFilters(filterObj);
 renderAllFilterOptions(filterObj);
+
 // showing the first filter by default when opening filter page
 const firstFilterObj = Object.keys(filterObj)[0];
-
 if (firstFilterObj) {
     const firstFilter = document.querySelectorAll(".filter-by")[0];
     selectFilter(firstFilter);
     showFilter(firstFilterObj);
     attachFilterEvents(firstFilterObj);
 }
+
 
 /* click events on filter options - creting sets for each filtername and also adding checkboxes */
 function attachFilterEvents(filterName) {
@@ -267,7 +312,7 @@ function attachFilterEvents(filterName) {
     });
 };
 
-/* function to clear all selected filters */
+/* function to @clear all selected filters */
 clearAllBtn.addEventListener("click", () => {
     selectedFilters = {};
 
